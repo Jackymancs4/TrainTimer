@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" ng-app="traintimer">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+    <title>TrainTimer</title>
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css" type="text/css" />
+    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+
+    <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+    <script src="js/lib/jquery-2.2.3.min.js"></script>
+    <script src="js/lib/angular.min.js"></script>
+    <script src="js/lib/random.min.js"></script>
+    <script src="js/lib/moment.js"></script>
+
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/traintimer.js"></script>
+
+</head>
+
+<body>
+    <div class="container-fluid" ng-controller="TraintimerController as tt">
+        <div class="col-md-2">
+        </div>
+        <div class="col-md-8">
+            <h1>TrainTimer</h1>
+            <h3>{{ tt.getTime() }}</h3>
+            <div ng-hide="tt.onRun()">
+                Il treno parte tra:
+            </div>
+            <br>
+            <div ng-repeat="(key, value) in tt.getStops()" class="station">
+                <div class="circle" ng-style="tt.circleStyle(key)">
+                </div>
+                <div class="circleline" ng-style="tt.circlelineStyle(key)">
+                </div>
+                <div class="nametime" ng-style="tt.nametimeStyle(key)">
+                    {{ value }} - {{ tt.getTimeStops()[key].format("hh:mm a") }}
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-2 cl-right">
+            <div ng-hide="tt.offRun()">
+                Stazione: {{ tt.getStops()[tt.currentStop()]; }}
+                <br>
+                Next stop: {{ tt.getStops()[tt.currentStop()+1]; }}
+                <br>
+                Tempo rimanente: {{ tt.remainingTime(tt.currentStop()+1) }}
+            </div>
+            <br>
+            <div ng-show="tt.offRun()">
+                Viaggio finito!
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
