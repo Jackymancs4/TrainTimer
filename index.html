@@ -22,6 +22,16 @@
 <body>
     <div class="container-fluid" ng-controller="TraintimerController as tt">
         <div class="col-md-2">
+          <form name="myForm" ng-controller="TimerpickerController as tp">
+            <label for="singleSelect"> Single select: </label><br>
+            <select name="hours" ng-model="tt.hour" ng-change="tt.resetAll()" ng-options="v for v in tp.hours">
+            </select><br>
+            <select name="minutes" ng-model="tt.minute" ng-change="tt.resetAll()" ng-options="f for f in tp.minutes">
+            </select><br>
+          </form>
+
+          aa {{ tt.hour }}
+
         </div>
         <div class="col-md-8">
             <h1>TrainTimer</h1>
@@ -48,6 +58,9 @@
                 Next stop: {{ tt.getStops()[tt.currentStop()+1]; }}
                 <br>
                 Tempo rimanente: {{ tt.remainingTime(tt.currentStop()+1) }}
+                <br>
+                <br>
+                Tempo totale rimanente: {{ tt.remainingTime(tt.getTimeStops().length-1) }}
             </div>
             <br>
             <div ng-show="tt.offRun()">

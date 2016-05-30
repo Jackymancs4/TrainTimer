@@ -2,13 +2,46 @@
 
     var app = angular.module('traintimer', []);
 
+    app.controller('TimerpickerController', function($scope) {
+
+        this.hours = [];
+        this.minutes = [];
+
+        this.hour = 12;
+        this.minute = 5;
+
+        var i;
+        for (i = 0; i <= 60; i++) {
+            this.minutes.push(i);
+        }
+        for (i = 0; i <= 24; i++) {
+            this.hours.push(i);
+        }
+
+    });
+
     app.controller('TraintimerController', function($scope, $http, $interval) {
 
+        this.hour = 12;
+        this.minute = 5;
+
         $scope.time = moment();
-        $scope.startTime = moment("10:50 am", "HH:mm a");
+        $scope.startTime = moment(this.hour + ":" + this.minute, "HH:mm");
         $scope.stops = [];
         $scope.deltastops = [];
         $scope.timestops = [$scope.startTime];
+
+        this.resetAll = function() {
+
+            $scope.time = moment();
+            $scope.startTime = moment(this.hour + ":" + this.minute, "HH:mm");
+            $scope.stops = [];
+            $scope.deltastops = [];
+            $scope.timestops = [$scope.startTime];
+
+            this.getJson('assets/t4.json');
+
+        };
 
         this.getTime = function() {
             return $scope.time.clone().format("HH:mm:ss a");
@@ -46,7 +79,6 @@
 
                 return minutes + ":" + (seconds % 60);
             } else return 0;
-
 
         };
 
@@ -99,24 +131,30 @@
             $scope.time = moment();
         }, 1000);
 
-        $http.get('assets/t3.json')
-            .then(function(res) {
+        this.getJson = function(address) {
+            $http.get(address)
+                .then(function(res) {
 
-                var newTime = $scope.startTime.clone();
-                $scope.timestops = [];
+                    var newTime = $scope.startTime.clone();
+                    $scope.timestops = [];
 
-                angular.forEach(res.data, function(value, key) {
-                    $scope.stops.push(value[0]);
-                    $scope.deltastops.push(value[1]);
-                    newTime.add(value[1], "m");
-                    $scope.timestops.push(newTime.clone());
+                    angular.forEach(res.data, function(value, key) {
+                        $scope.stops.push(value[0]);
+                        $scope.deltastops.push(value[1]);
+                        newTime.add(value[1], "m");
+                        $scope.timestops.push(newTime.clone());
 
-                    //console.log(newTime.format("h:mm:ss a"));
+                        //console.log(newTime.format("h:mm:ss a"));
+                    });
+                    $scope.deltastops.push(0);
                 });
-                $scope.deltastops.push(0);
-            });
+
+        };
+
+        this.getJson('assets/t4.json');
 
     });
+
 
 
 })();
