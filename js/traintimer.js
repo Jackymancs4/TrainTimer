@@ -11,10 +11,10 @@
         this.minute = 5;
 
         var i;
-        for (i = 0; i <= 60; i++) {
+        for (i = 0; i < 60; i++) {
             this.minutes.push(i);
         }
-        for (i = 0; i <= 24; i++) {
+        for (i = 0; i < 24; i++) {
             this.hours.push(i);
         }
 

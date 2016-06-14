@@ -21,19 +21,22 @@
 
 <body>
     <div class="container-fluid" ng-controller="TraintimerController as tt">
-        <div class="col-md-2">
-          <form name="myForm" ng-controller="TimerpickerController as tp">
-            <label for="singleSelect"> Single select: </label><br>
-            <select name="hours" ng-model="tt.hour" ng-change="tt.resetAll()" ng-options="v for v in tp.hours">
-            </select><br>
-            <select name="minutes" ng-model="tt.minute" ng-change="tt.resetAll()" ng-options="f for f in tp.minutes">
-            </select><br>
-          </form>
+        <div class="col-md-3">
+            <form name="myForm" ng-controller="TimerpickerController as tp">
+                <label for="singleSelect"> Single select: </label>
+                <br>
+                <select name="hours" ng-model="tt.hour" ng-change="tt.resetAll()" ng-options="v for v in tp.hours">
+                </select>
+                <br>
+                <select name="minutes" ng-model="tt.minute" ng-change="tt.resetAll()" ng-options="f for f in tp.minutes">
+                </select>
+                <br>
+            </form>
 
-          aa {{ tt.hour }}
+            {{ tt.getStartTime() }}
 
         </div>
-        <div class="col-md-8">
+        <div class="col-md-4">
             <h1>TrainTimer</h1>
             <h3>{{ tt.getTime() }}</h3>
             <div ng-hide="tt.onRun()">
@@ -51,16 +54,13 @@
             </div>
 
         </div>
-        <div class="col-md-2 cl-right">
+        <div class="col-md-5 cl-right">
             <div ng-hide="tt.offRun()">
                 Stazione: {{ tt.getStops()[tt.currentStop()]; }}
+                <br> Next stop: {{ tt.getStops()[tt.currentStop()+1]; }}
+                <br> Tempo rimanente: {{ tt.remainingTime(tt.currentStop()+1) }}
                 <br>
-                Next stop: {{ tt.getStops()[tt.currentStop()+1]; }}
-                <br>
-                Tempo rimanente: {{ tt.remainingTime(tt.currentStop()+1) }}
-                <br>
-                <br>
-                Tempo totale rimanente: {{ tt.remainingTime(tt.getTimeStops().length-1) }}
+                <br> Tempo totale rimanente: {{ tt.remainingTime(tt.getTimeStops().length-1) }}
             </div>
             <br>
             <div ng-show="tt.offRun()">
